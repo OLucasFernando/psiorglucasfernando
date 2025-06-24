@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talent Acquisition | Lucas Fernando</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* === ESTILOS GERAIS (igual ao site principal) === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* === HEADER SIMPLIFICADO (só Início e Anima) === */
+        header {
+            background: #1e3a8a;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* === HERO DA PÁGINA === */
+        .service-hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .service-hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease;
+        }
+        
+        .service-hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeIn 1.5s ease;
+        }
+        
+        /* === SEÇÃO "COMO FUNCIONA" (com ícones e imagens) === */
+        .how-it-works {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            animation: slideIn 1s ease;
+        }
+        
+        .step:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        
+        .step-icon {
+            flex-shrink: 0;
+            width: 80px;
+            height: 80px;
+            background: #f0f7ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #1e3a8a;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .step-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .step-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* === SEÇÃO VANTAGENS === */
+        .benefits {
+            padding: 80px 0;
+            background: #f0f7ff;
+            text-align: center;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .benefit-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .benefit-icon {
+            font-size: 2.5rem;
+            color: #3b82f6;
+            margin-bottom: 20px;
+        }
+        
+        /* === RODAPÉ (igual ao principal) === */
+        footer {
+            background: #1e3a8a;
+            color: white;
+            padding: 50px 0;
+        }
+        
+        /* === ANIMAÇÕES === */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* === RESPONSIVO === */
+        @media (max-width: 768px) {
+            .step {
+                flex-direction: column;
+            }
+            
+            .step:nth-child(even) {
+                flex-direction: column;
+            }
+            
+            .step-image {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <nav>
+            <a href="index.html">Início</a>
+            <a href="index.html#anima">Anima</a>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="service-hero">
+        <div class="container">
+            <h1>Talent Acquisition</h1>
+            <p>Atração e seleção estratégica de talentos alinhados à cultura da sua empresa.</p>
+        </div>
+    </section>
+
+    <!-- COMO FUNCIONA -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 style="text-align: center; color: #1e3a8a; margin-bottom: 60px; font-size: 2rem;">Como Funciona?</h2>
+            
+            <!-- Etapa 1 -->
+            <div class="step">
+                <div class="step-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="step-content">
+                    <h3 style="color: #1e3a8a; margin-bottom: 15px;">Diagnóstico Inicial</h3>
+                    <p style="margin-bottom: 15px;">Análise detalhada das necessidades de talentos, cultura organizacional e gaps de competências.</p>
+                    <ul style="list-style-position: inside; color: #555;">
+                        <li style="margin-bottom: 8px;">Entrevistas com stakeholders</li>
+                        <li style="margin-bottom: 8px;">Mapeamento de competências-chave</li>
+                        <li>Definição de perfil ideal</li>
+                    </ul>
+                </div>
+                <div class="step-image">
+                    <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Diagnóstico de Talentos">
+                </div>
+            </div>
+            
+            <!-- Etapa 2 -->
+            <div class="step">
+                <div class="step-icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <div class="step-content">
+                    <h3 style="color: #1e3a8a; margin-bottom: 15px;">Atração Estratégica</h3>
+                    <p style="margin-bottom: 15px;">Implementação de estratégias personalizadas para atrair os melhores talentos.</p>
+                    <ul style="list-style-position: inside; color: #555;">
+                        <li style="margin-bottom: 8px;">Employer branding</li>
+                        <li style="margin-bottom: 8px;">Anúncios segmentados</li>
+                        <li>Headhunting ativo</li>
+                    </ul>
+                </div>
+                <div class="step-image">
+                    <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Atração de Talentos">
+                </div>
+            </div>
+            
+            <!-- Etapa 3 -->
+            <div class="step">
+                <div class="step-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <div class="step-content">
+                    <h3 style="color: #1e3a8a; margin-bottom: 15px;">Seleção Humanizada</h3>
+                    <p style="margin-bottom: 15px;">Processo seletivo focado em fit cultural e potencial de crescimento.</p>
+                    <ul style="list-style-position: inside; color: #555;">
+                        <li style="margin-bottom: 8px;">Dinâmicas comportamentais</li>
+                        <li style="margin-bottom: 8px;">Avaliação por competências</li>
+                        <li>Feedback construtivo</li>
+                    </ul>
+                </div>
+                <div class="step-image">
+                    <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Seleção de Talentos">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VANTAGENS -->
+    <section class="benefits">
+        <div class="container">
+            <h2 style="color: #1e3a8a; font-size: 2rem;">Vantagens do Nosso Método</h2>
+            <p style="max-width: 800px; margin: 20px auto;">Resultados mensuráveis e processos adaptados à realidade da sua empresa.</p>
+            
+            <div class="benefits-grid">
+                <!-- Benefício 1 -->
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 style="color: #1e3a8a; margin-bottom: 15px;">Redução de Turnover</h3>
+                    <p>Até 40% menos rotatividade com contratações mais assertivas.</p>
+                </div>
+                
+                <!-- Benefício 2 -->
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 style="color: #1e3a8a; margin-bottom: 15px;">Processo Ágil</h3>
+                    <p>Redução em 30% do tempo médio de preenchimento de vagas.</p>
+                </div>
+                
+                <!-- Benefício 3 -->
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h3 style="color: #1e3a8a; margin-bottom: 15px;">Custo-Efetivo</h3>
+                    <p>Otimização de recursos em processos seletivos.</p>
+                </div>
+                
+                <!-- Benefício 4 -->
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 style="color: #1e3a8a; margin-bottom: 15px;">Fit Cultural</h3>
+                    <p>90% dos candidatos contratados permanecem após 2 anos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RODAPÉ (igual ao principal) -->
+    <footer>
+        <div class="container" style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px;">
+            <!-- Coluna 1: Redes Sociais -->
+            <div style="flex: 1; min-width: 250px;">
+                <h3 style="font-size: 1.5rem; margin-bottom: 15px;">Consultoria em Psicologia Organizacional</h3>
+                <p style="font-style: italic; opacity: 0.9; margin-bottom: 20px;">"Transformando talentos em resultados humanos e estratégicos"</p>
+                
+                <!-- Ícones Redes Sociais -->
+                <div style="display: flex; gap: 15px;">
+                    <a href="https://ohai.social/@Prinz" target="_blank" style="color: white;"><i class="fab fa-mastodon" style="font-size: 1.5rem;"></i></a>
+                    <a href="https://bsky.app/profile/lucasfernando-s.bsky.social" target="_blank" style="color: white; display: flex; align-items: center;">
+                        <svg width="24" height="24" viewBox="0 0 512 512" fill="white" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M111.8 62.2C170.2 105.9 233 194.7 256 242.4c23-47.6 85.8-136.4 144.2-180.2c42.1-31.6 110.3-56 110.3 21.8c0 15.5-8.9 130.5-14.1 149.2C478.2 298 412 314.6 353.1 304.5c102.9 17.5 129.1 75.5 72.5 133.5c-107.4 110.2-154.3-27.6-166.3-62.9l0 0c-1.7-4.9-2.6-7.8-3.3-7.8s-1.6 3-3.3 7.8l0 0c-12 35.3-59 173.1-166.3 62.9c-56.5-58-30.4-116 72.5-133.5C100 314.6 33.8 298 15.7 233.1C10.4 214.4 1.5 99.4 1.5 83.9c0-77.8 68.2-53.4 110.3-21.8z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/psi.lucasfernando/" target="_blank" style="color: white;"><i class="fab fa-instagram" style="font-size: 1.5rem;"></i></a>
+                    <a href="https://www.linkedin.com/in/lucas-fernando-s/" target="_blank" style="color: white;"><i class="fab fa-linkedin" style="font-size: 1.5rem;"></i></a>
+                </div>
+            </div>
+            
+            <!-- Coluna 2: Newsletter -->
+            <div style="flex: 1; min-width: 250px;">
+                <h4 style="font-size: 1.2rem; margin-bottom: 15px; border-bottom: 2px solid #3b82f6; padding-bottom: 5px;">Assine a Newsletter</h4>
+                <iframe src="https://mindsdata.substack.com/embed" width="100%" height="220" style="border: 1px solid #EEE; background: white; border-radius: 8px;" frameborder="0" scrolling="no"></iframe>
+            </div>
+            
+            <!-- Coluna 3: Categorias -->
+            <div style="flex: 1; min-width: 250px; display: flex; gap: 40px;">
+                <!-- Serviços -->
+                <div>
+                    <h4 style="font-size: 1.2rem; border-bottom: 2px solid #3b82f6; padding-bottom: 5px; margin-bottom: 15px;">Serviços</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 8px;"><a href="talent-acquisition.html" style="color: white; text-decoration: none;">Talent Acquisition</a></li>
+                        <li style="margin-bottom: 8px;"><a href="diagnostico-organizacional.html" style="color: white; text-decoration: none;">Diagnóstico Organizacional</a></li>
+                        <li style="margin-bottom: 8px;"><a href="gestao-cultura.html" style="color: white; text-decoration: none;">Gestão de Cultura</a></li>
+                        <li style="margin-bottom: 8px;"><a href="saude-mental.html" style="color: white; text-decoration: none;">Saúde Mental</a></li>
+                        <li><a href="programa-desenvolvimento.html" style="color: white; text-decoration: none;">Programa de Desenvolvimento</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Projetos -->
+                <div>
+                    <h4 style="font-size: 1.2rem; border-bottom: 2px solid #3b82f6; padding-bottom: 5px; margin-bottom: 15px;">Projetos</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li><a href="anima.html" style="color: white; text-decoration: none;">Anima</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Créditos -->
+        <div style="text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+            <p style="opacity: 0.8; font-size: 0.9rem;">© 2025 Lucas Fernando. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

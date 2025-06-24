@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta name="description" content="Consultoria em Psicologia Organizacional especializada em Talent Acquisition, Diagnóstico Organizacional e Gestão de Cultura.">
+<meta name="keywords" content="psicologia organizacional, gestão de pessoas, talent acquisition, Lucas Fernando">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucas Fernando - Psicólogo Organizacional</title>
+    <style>
+        /* Reset e Estilos Globais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header/Navegação */
+        header {
+            background: #1e3a8a;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 100px 0 80px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Seção Serviços */
+        .services {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2rem;
+            color: #1e3a8a;
+        }
+        
+        /* Carrossel Aprimorado */
+        .carousel {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        .carousel-container {
+            display: flex;
+            transition: transform 0.5s ease;
+            padding: 20px 0;
+        }
+        
+        .service-card {
+            min-width: 300px;
+            margin: 0 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .service-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 3px solid #3b82f6;
+        }
+        
+        .service-card a {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .service-info {
+            padding: 20px;
+        }
+        
+        .service-info h3 {
+            color: #1e3a8a;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .service-info p {
+            margin-bottom: 10px;
+            color: #555;
+        }
+        
+        .carousel-nav {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .carousel-nav button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .carousel-nav button:hover {
+            background: #3b82f6;
+            transform: translateY(-2px);
+        }
+        
+        /* Responsivo */
+        @media (max-width: 768px) {
+            nav {
+                gap: 15px;
+                flex-wrap: wrap;
+            }
+            
+            .hero {
+                padding: 80px 0 60px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .service-card {
+                min-width: 260px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Superior -->
+    <header>
+        <nav>
+            <a href="#inicio">Início</a>
+            <a href="#servicos">Serviços</a>
+            <a href="#anima">Anima</a>
+        </nav>
+    </header>
+    
+    <!-- Seção Hero -->
+    <section class="hero" id="inicio">
+        <div class="container">
+            <h1>Psicólogo Organizacional</h1>
+            <p>Eu sou o Lucas Fernando, apaixonado por gestão de pessoas. Talent Acquisition, meu foco é agregar valor.</p>
+        </div>
+    </section>
+    
+    <!-- Seção Serviços -->
+    <section class="services" id="servicos">
+        <div class="container">
+            <h2 class="section-title">Serviços</h2>
+            
+            <div class="carousel">
+                <div class="carousel-container" id="carousel">
+                    <!-- Card 1 - Talent Acquisition -->
+                    <div class="service-card">
+                        <a href="#talent-acquisition">
+                            <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Talent Acquisition">
+                            <div class="service-info">
+                                <h3>Talent Acquisition</h3>
+                                <p>Atração e seleção estratégica de talentos alinhados aos valores e necessidades da sua organização, com técnicas modernas de recrutamento e employer branding.</p>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Card 2 - Diagnóstico Organizacional -->
+                    <div class="service-card">
+                        <a href="#diagnostico">
+                            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Diagnóstico Organizacional">
+                            <div class="service-info">
+                                <h3>Diagnóstico Organizacional</h3>
+                                <p>Análise profunda do clima organizacional, identificando gaps de comunicação, engajamento e oportunidades de melhoria na cultura corporativa.</p>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Card 3 - Gestão de Cultura -->
+                    <div class="service-card">
+                        <a href="#gestao-cultura">
+                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Gestão de Cultura">
+                            <div class="service-info">
+                                <h3>Gestão de Cultura Organizacional</h3>
+                                <p>Desenvolvimento e implementação de estratégias para fortalecer a identidade cultural da empresa, alinhando valores, comportamentos e práticas.</p>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Card 4 - Saúde Mental -->
+                    <div class="service-card">
+                        <a href="#saude-mental">
+                            <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Saúde Mental">
+                            <div class="service-info">
+                                <h3>Programa de Saúde Mental</h3>
+                                <p>Iniciativas para promoção de bem-estar psicológico, prevenção de burnout e criação de um ambiente de trabalho mentalmente saudável.</p>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Card 5 - Programa de Desenvolvimento (NOVO) -->
+                    <div class="service-card">
+                        <a href="#programa-desenvolvimento">
+                            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Programa de Desenvolvimento">
+                            <div class="service-info">
+                                <h3>Programa de Desenvolvimento</h3>
+                                <p>Soluções personalizadas para capacitação de equipes, com diagnóstico de necessidades, planejamento estratégico e treinamentos sob medida.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="carousel-nav">
+                    <button onclick="prevCard()">← Anterior</button>
+                    <button onclick="nextCard()">Próximo →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        // JavaScript para o carrossel
+        const carousel = document.getElementById('carousel');
+        let currentPosition = 0;
+        const cardWidth = 330; // Largura ajustada
+        
+        function nextCard() {
+            const maxScroll = -((carousel.children.length - 1) * cardWidth);
+            if (currentPosition > maxScroll) {
+                currentPosition -= cardWidth;
+                carousel.style.transform = `translateX(${currentPosition}px)`;
+            }
+        }
+        
+        function prevCard() {
+            if (currentPosition < 0) {
+                currentPosition += cardWidth;
+                carousel.style.transform = `translateX(${currentPosition}px)`;
+            }
+        }
+        
+        // Links âncora suaves
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+ <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucas Fernando - Psicólogo Organizacional</title>
+    
+    <!-- CSS Interno (dentro do HTML) -->
+    <style>
+        /* ESTILOS GERAIS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* ESTILOS DO RODAPÉ */
+        footer {
+            background: #1e3a8a;
+            color: white;
+            padding: 50px 0;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+        }
+        
+        .footer-col {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        /* Coluna Redes Sociais */
+        .footer-brand h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .footer-brand p {
+            font-style: italic;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            transform: translateY(-3px);
+            opacity: 0.8;
+        }
+        
+        /* Ícone Bluesky SVG */
+        .bluesky-icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+        
+        /* Newsletter */
+        .newsletter h4 {
+            font-size: 1.2rem;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .newsletter iframe {
+            border: 1px solid #EEE;
+            background: white;
+            border-radius: 8px;
+            width: 100%;
+            height: 220px;
+        }
+        
+        /* Categorias */
+        .footer-categories {
+            display: flex;
+            gap: 40px;
+        }
+        
+        .category h4 {
+            font-size: 1.2rem;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+        
+        .category ul {
+            list-style: none;
+        }
+        
+        .category li {
+            margin-bottom: 8px;
+        }
+        
+        .category a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .category a:hover {
+            opacity: 0.7;
+        }
+        
+        /* Créditos */
+        .footer-credits {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-credits p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .footer-categories {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+    
+    <!-- Font Awesome (ícones) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Seu conteúdo do site aqui... -->
+    
+    <!-- Rodapé -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <!-- Coluna 1: Redes Sociais -->
+                <div class="footer-col footer-brand">
+                    <h3>Consultoria em Psicologia Organizacional</h3>
+                    <p>"Transformando talentos em resultados humanos e estratégicos"</p>
+                    
+                    <div class="social-icons">
+                        <a href="https://ohai.social/@Prinz" target="_blank">
+                            <i class="fab fa-mastodon"></i>
+                        </a>
+                        <a href="https://bsky.app/profile/lucasfernando-s.bsky.social" target="_blank">
+                            <svg class="bluesky-icon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M111.8 62.2C170.2 105.9 233 194.7 256 242.4c23-47.6 85.8-136.4 144.2-180.2c42.1-31.6 110.3-56 110.3 21.8c0 15.5-8.9 130.5-14.1 149.2C478.2 298 412 314.6 353.1 304.5c102.9 17.5 129.1 75.5 72.5 133.5c-107.4 110.2-154.3-27.6-166.3-62.9l0 0c-1.7-4.9-2.6-7.8-3.3-7.8s-1.6 3-3.3 7.8l0 0c-12 35.3-59 173.1-166.3 62.9c-56.5-58-30.4-116 72.5-133.5C100 314.6 33.8 298 15.7 233.1C10.4 214.4 1.5 99.4 1.5 83.9c0-77.8 68.2-53.4 110.3-21.8z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/psi.lucasfernando/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/lucas-fernando-s/" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Coluna 2: Newsletter -->
+                <div class="footer-col newsletter">
+                    <h4>Assine a Newsletter</h4>
+                    <iframe src="https://mindsdata.substack.com/embed" frameborder="0" scrolling="no"></iframe>
+                </div>
+                
+                <!-- Coluna 3: Categorias -->
+                <div class="footer-col">
+                    <div class="footer-categories">
+                        <!-- Serviços -->
+                        <div class="category">
+                            <h4>Serviços</h4>
+                            <ul>
+                                <li><a href="#talent-acquisition">Talent Acquisition</a></li>
+                                <li><a href="#diagnostico">Diagnóstico Organizacional</a></li>
+                                <li><a href="#gestao-cultura">Gestão de Cultura</a></li>
+                                <li><a href="#saude-mental">Saúde Mental</a></li>
+                                <li><a href="#programa-desenvolvimento">Programa de Desenvolvimento</a></li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Projetos -->
+                        <div class="category">
+                            <h4>Projetos</h4>
+                            <ul>
+                                <li><a href="#anima">Anima</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Créditos -->
+            <div class="footer-credits">
+                <p>© 2025 Lucas Fernando. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+<a href="#inicio" id="back-to-top" style="position: fixed; bottom: 20px; right: 20px; background: #3b82f6; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.5rem;">↑</a>
+ </body>
+</html>
