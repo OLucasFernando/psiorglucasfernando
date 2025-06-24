@@ -203,7 +203,7 @@
     <section class="hero" id="inicio">
         <div class="container">
             <h1>Psicólogo Organizacional</h1>
-            <p>Eu sou o Lucas Fernando, apaixonado por gestão de pessoas. Talent Acquisition, meu foco é agregar valor.</p>
+            <p>Eu sou o Lucas Fernando, apaixonado por gestão de pessoas. Meu foco é agregar valor.</p>
         </div>
     </section>
     
@@ -216,7 +216,7 @@
                 <div class="carousel-container" id="carousel">
                     <!-- Card 1 - Talent Acquisition -->
                     <div class="service-card">
-                        <a href="#talent-acquisition">
+                        <a href="talent-acquisition.html">
                             <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Talent Acquisition">
                             <div class="service-info">
                                 <h3>Talent Acquisition</h3>
@@ -227,7 +227,7 @@
                     
                     <!-- Card 2 - Diagnóstico Organizacional -->
                     <div class="service-card">
-                        <a href="#diagnostico">
+                        <a href="diagnostico-organizacional.html">
                             <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Diagnóstico Organizacional">
                             <div class="service-info">
                                 <h3>Diagnóstico Organizacional</h3>
@@ -238,7 +238,7 @@
                     
                     <!-- Card 3 - Gestão de Cultura -->
                     <div class="service-card">
-                        <a href="#gestao-cultura">
+                        <a href="gestao-cultura.html">
                             <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Gestão de Cultura">
                             <div class="service-info">
                                 <h3>Gestão de Cultura Organizacional</h3>
@@ -249,7 +249,7 @@
                     
                     <!-- Card 4 - Saúde Mental -->
                     <div class="service-card">
-                        <a href="#saude-mental">
+                        <a href="saude-mental.html">
                             <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Saúde Mental">
                             <div class="service-info">
                                 <h3>Programa de Saúde Mental</h3>
@@ -260,7 +260,7 @@
                     
                     <!-- Card 5 - Programa de Desenvolvimento (NOVO) -->
                     <div class="service-card">
-                        <a href="#programa-desenvolvimento">
+                        <a href="programa-desenvolvimento.html">
                             <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Programa de Desenvolvimento">
                             <div class="service-info">
                                 <h3>Programa de Desenvolvimento</h3>
@@ -283,20 +283,28 @@
         const carousel = document.getElementById('carousel');
         let currentPosition = 0;
         const cardWidth = 330; // Largura ajustada
+        const totalCards = carousel.children.length;
+        const maxVisibleCards = Math.floor(carousel.parentElement.offsetWidth / cardWidth);
+        const maxScroll = -((totalCards - maxVisibleCards) * cardWidth);
         
         function nextCard() {
-            const maxScroll = -((carousel.children.length - 1) * cardWidth);
-            if (currentPosition > maxScroll) {
+            if (currentPosition <= maxScroll) {
+                // Se chegou ao final, volta para o primeiro
+                currentPosition = 0;
+            } else {
                 currentPosition -= cardWidth;
-                carousel.style.transform = `translateX(${currentPosition}px)`;
             }
+            carousel.style.transform = `translateX(${currentPosition}px)`;
         }
         
         function prevCard() {
-            if (currentPosition < 0) {
+            if (currentPosition >= 0) {
+                // Se está no primeiro, vai para o último
+                currentPosition = maxScroll;
+            } else {
                 currentPosition += cardWidth;
-                carousel.style.transform = `translateX(${currentPosition}px)`;
             }
+            carousel.style.transform = `translateX(${currentPosition}px)`;
         }
         
         // Links âncora suaves
@@ -509,11 +517,11 @@
                         <div class="category">
                             <h4>Serviços</h4>
                             <ul>
-                                <li><a href="#talent-acquisition">Talent Acquisition</a></li>
-                                <li><a href="#diagnostico">Diagnóstico Organizacional</a></li>
-                                <li><a href="#gestao-cultura">Gestão de Cultura</a></li>
-                                <li><a href="#saude-mental">Saúde Mental</a></li>
-                                <li><a href="#programa-desenvolvimento">Programa de Desenvolvimento</a></li>
+                                <li><a href="talent-acquisition.html">Talent Acquisition</a></li>
+                                <li><a href="diagnostico-organizacional.html">Diagnóstico Organizacional</a></li>
+                                <li><a href="gestao-cultura.html">Gestão de Cultura</a></li>
+                                <li><a href="saude-mental.html">Saúde Mental</a></li>
+                                <li><a href="programa-desenvolvimento.html">Programa de Desenvolvimento</a></li>
                             </ul>
                         </div>
                         
