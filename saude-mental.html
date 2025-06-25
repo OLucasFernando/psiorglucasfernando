@@ -521,26 +521,51 @@
             </div>
         </div>
     </footer>
-        <!-- Botão Flutuante do WhatsApp -->
-    <a href="https://wa.me/5521988490811?text=Ol%C3%A1%2C%20tudo%20bem%3F%20gostaria%20de%20uma%20consultoria%20em%20Psicologia%20Organizacional" 
-       target="_blank" 
-       style="position: fixed; 
-              bottom: 30px; 
-              right: 30px; 
-              background-color: #25D366; 
-              color: white; 
-              width: 60px; 
-              height: 60px; 
-              border-radius: 50%; 
-              text-align: center; 
-              font-size: 30px; 
-              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); 
-              z-index: 1000;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              transition: all 0.3s ease;">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+       <a href="https://wa.me/5521988490811?text=Ol%C3%A1%2C%20tudo%20bem%3F%20gostaria%20de%20uma%20consultoria%20em%20Psicologia%20Organizacional" 
+   target="_blank" 
+   class="whatsapp-float">
+   <i class="fab fa-whatsapp"></i>
+   <span class="whatsapp-text">Fale comigo</span>
+</a>
+
+<style>
+/* Adicione isso no seu <style> */
+.whatsapp-float {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #25D366;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50px; /* Alterado para ficar oval no hover */
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    overflow: hidden; /* Para o texto não vazar */
+}
+
+.whatsapp-text {
+    display: none;
+    font-size: 16px;
+    margin-left: 10px;
+    margin-right: 15px;
+    white-space: nowrap;
+}
+
+.whatsapp-float:hover {
+    width: auto;
+    padding: 0 20px;
+}
+
+.whatsapp-float:hover .whatsapp-text {
+    display: inline-block;
+}
+</style>
 </body>
 </html>
