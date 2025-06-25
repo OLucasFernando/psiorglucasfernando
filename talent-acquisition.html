@@ -384,6 +384,63 @@
             <p style="opacity: 0.8; font-size: 0.9rem;">© 2025 Lucas Fernando. Todos os direitos reservados.</p>
         </div>
     </footer>
+    <!-- Botão Voltar ao Topo - Coloque ANTES do </body> -->
+<a href="#inicio" id="back-to-top" title="Voltar ao topo">
+    <i class="fas fa-arrow-up"></i>
+</a>
+
+<style>
+/* Estilo do botão (adicione no seu <style>) */
+#back-to-top {
+    position: fixed;
+    bottom: 90px; /* Ajuste para ficar acima do botão do WhatsApp */
+    right: 30px;
+    background: #1e3a8a;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.3rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+
+#back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+#back-to-top:hover {
+    background: #3b82f6;
+    transform: translateY(-3px);
+}
+
+/* Mostrar apenas quando rolar a página */
+@media (min-width: 768px) {
+    #back-to-top {
+        display: flex; /* Sempre visível em desktop */
+    }
+}
+</style>
+
+<script>
+// JavaScript para mostrar/ocultar (coloque antes do </body>)
+window.addEventListener('scroll', function() {
+    var backToTop = document.getElementById('back-to-top');
+    if (window.pageYOffset > 300) {
+        backToTop.classList.add('visible');
+    } else {
+        backToTop.classList.remove('visible');
+    }
+});
+</script>
        <a href="https://wa.me/5521988490811?text=Ol%C3%A1%2C%20tudo%20bem%3F%20gostaria%20de%20uma%20consultoria%20em%20Psicologia%20Organizacional" 
    target="_blank" 
    class="whatsapp-float">
