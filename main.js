@@ -1,153 +1,86 @@
-// Substitua o JavaScript atual do carrossel por este código melhorado
 document.addEventListener('DOMContentLoaded', function() {
+    // Configurações do Carrossel
     const carousel = document.getElementById('carousel');
-    const cards = carousel.children;
+    const cards = document.querySelectorAll('.service-card');
     let currentPosition = 0;
     let isAnimating = false;
-    let startX = 0;
-    let currentTranslate = 0;
-    let prevTranslate = 0;
-    let animationID;
-    let touchStartTime;
     
-    // Configurações ajustáveis
-    const config = {
-        transitionSpeed: 300,
-        swipeThreshold: 50,
-        swipeTimeThreshold: 500
-    };
-    
-    // Calcula a largura do card baseado no primeiro elemento
+    // Calcula a largura do card incluindo margens
+    const cardStyle = window.getComputedStyle(cards[0]);
     const cardWidth = cards[0].offsetWidth + 
-                     parseInt(window.getComputedStyle(cards[0]).marginLeft) + 
-                     parseInt(window.getComputedStyle(cards[0]).marginRight);
+                    parseInt(cardStyle.marginLeft) + 
+                    parseInt(cardStyle.marginRight);
     
-    // Calcula quantos cards são visíveis
+    // Quantidade de cards visíveis
     const visibleCards = Math.floor(carousel.parentElement.offsetWidth / cardWidth);
     const maxScroll = -((cards.length - visibleCards) * cardWidth);
-    
-    // Adiciona eventos de toque/arrastar para mobile
-    carousel.addEventListener('touchstart', touchStart);
-    carousel.addEventListener('touchend', touchEnd);
-    carousel.addEventListener('touchmove', touchMove);
-    
-    // Adiciona eventos de mouse para desktop
-    carousel.addEventListener('mousedown', touchStart);
-    carousel.addEventListener('mouseup', touchEnd);
-    carousel.addEventListener('mouseleave', touchEnd);
-    carousel.addEventListener('mousemove', touchMove);
-    
+
     // Funções de navegação
     window.nextCard = function() {
         if (isAnimating) return;
         
         if (currentPosition <= maxScroll) {
-            goToPosition(0);
+            goToPosition(0); // Volta para o primeiro
         } else {
-            goToPosition(currentPosition - cardWidth);
+            goToPosition(currentPosition - cardWidth); // Próximo card
         }
     };
-    
+
     window.prevCard = function() {
         if (isAnimating) return;
         
         if (currentPosition >= 0) {
-            goToPosition(maxScroll);
+            goToPosition(maxScroll); // Vai para o último
         } else {
-            goToPosition(currentPosition + cardWidth);
+            goToPosition(currentPosition + cardWidth); // Card anterior
         }
     };
-    
-    // Função para ir para uma posição específica com animação suave
+
+    // Função para animação suave
     function goToPosition(position) {
         isAnimating = true;
         currentPosition = position;
         
-        carousel.style.transition = `transform ${config.transitionSpeed}ms ease-out`;
+        carousel.style.transition = 'transform 0.5s ease-out';
         carousel.style.transform = `translateX(${currentPosition}px)`;
         
-        // Remove a classe de transição após a animação
         setTimeout(() => {
-            carousel.style.transition = 'none';
             isAnimating = false;
-        }, config.transitionSpeed);
+        }, 500);
     }
+
+    // Suporte para touch/swipe em mobile
+    let startX, startScroll;
     
-    // Funções para suporte a touch/swipe
-    function touchStart(e) {
-        if (isAnimating) return;
-        
-        // Para evitar conflitos entre touch e mouse
-        if (e.type === 'mousedown') {
-            e.preventDefault();
-        }
-        
-        touchStartTime = Date.now();
-        startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-        prevTranslate = currentPosition;
-        
-        // Remove qualquer transição ativa
+    carousel.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startScroll = currentPosition;
         carousel.style.transition = 'none';
-    }
+    });
     
-    function touchMove(e) {
+    carousel.addEventListener('touchmove', (e) => {
+        if (!startX) return;
+        const x = e.touches[0].clientX;
+        const diff = x - startX;
+        carousel.style.transform = `translateX(${startScroll + diff}px)`;
+    });
+    
+    carousel.addEventListener('touchend', (e) => {
         if (!startX) return;
         
-        const currentX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-        const diff = currentX - startX;
+        const x = e.changedTouches[0].clientX;
+        const diff = x - startX;
         
-        // Atualiza a posição durante o arrasto
-        currentTranslate = prevTranslate + diff;
-        
-        // Limita o movimento para não passar dos limites
-        if (currentTranslate > 0) {
-            currentTranslate = 0;
-        } else if (currentTranslate < maxScroll) {
-            currentTranslate = maxScroll;
-        }
-        
-        // Aplica o movimento
-        carousel.style.transform = `translateX(${currentTranslate}px)`;
-    }
-    
-    function touchEnd() {
-        if (!startX) return;
-        
-        const touchDuration = Date.now() - touchStartTime;
-        const currentDiff = currentTranslate - prevTranslate;
-        
-        // Determina se foi um swipe rápido (deve mudar o card)
-        if (Math.abs(currentDiff) > config.swipeThreshold && 
-            touchDuration < config.swipeTimeThreshold) {
-            
-            if (currentDiff > 0) {
-                // Swipe para a direita - card anterior
+        if (Math.abs(diff) > 50) { // Threshold para considerar swipe
+            if (diff > 0) {
                 prevCard();
             } else {
-                // Swipe para a esquerda - próximo card
                 nextCard();
             }
         } else {
-            // Se não foi um swipe rápido, volta para a posição atual ou vai para o card mais próximo
-            const cardIndex = Math.round(Math.abs(currentTranslate) / cardWidth);
-            goToPosition(-(cardIndex * cardWidth));
+            goToPosition(currentPosition);
         }
         
-        // Reseta as variáveis
-        startX = 0;
-    }
-    
-    // Ajusta o carrossel quando a janela é redimensionada
-    window.addEventListener('resize', function() {
-        const newCardWidth = cards[0].offsetWidth + 
-                            parseInt(window.getComputedStyle(cards[0]).marginLeft) + 
-                            parseInt(window.getComputedStyle(cards[0]).marginRight);
-        
-        if (newCardWidth !== cardWidth) {
-            // Recalcula a posição com base na nova largura
-            const cardIndex = Math.round(Math.abs(currentPosition) / cardWidth);
-            currentPosition = -(cardIndex * newCardWidth);
-            carousel.style.transform = `translateX(${currentPosition}px)`;
-        }
+        startX = null;
     });
 });
