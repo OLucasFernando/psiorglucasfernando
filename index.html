@@ -257,46 +257,6 @@
             </div>
         </div>
     </section>
-    
-    <script>
-        // JavaScript para o carrossel
-        const carousel = document.getElementById('carousel');
-        let currentPosition = 0;
-        const cardWidth = 330; // Largura ajustada
-        const totalCards = carousel.children.length;
-        const maxVisibleCards = Math.floor(carousel.parentElement.offsetWidth / cardWidth);
-        const maxScroll = -((totalCards - maxVisibleCards) * cardWidth);
-        
-        function nextCard() {
-            if (currentPosition <= maxScroll) {
-                // Se chegou ao final, volta para o primeiro
-                currentPosition = 0;
-            } else {
-                currentPosition -= cardWidth;
-            }
-            carousel.style.transform = `translateX(${currentPosition}px)`;
-        }
-        
-        function prevCard() {
-            if (currentPosition >= 0) {
-                // Se está no primeiro, vai para o último
-                currentPosition = maxScroll;
-            } else {
-                currentPosition += cardWidth;
-            }
-            carousel.style.transform = `translateX(${currentPosition}px)`;
-        }
-        
-        // Links âncora suaves
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
  <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lucas Fernando - Psicólogo Organizacional</title>
