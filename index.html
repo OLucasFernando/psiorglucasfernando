@@ -1,6 +1,34 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <script>
+        // JavaScript para o carrossel
+        const carousel = document.getElementById('carousel');
+        let currentPosition = 0;
+        const cardWidth = 330; // Largura ajustada
+        const totalCards = carousel.children.length;
+        const maxVisibleCards = Math.floor(carousel.parentElement.offsetWidth / cardWidth);
+        const maxScroll = -((totalCards - maxVisibleCards) * cardWidth);
+        
+        function nextCard() {
+            if (currentPosition <= maxScroll) {
+                // Se chegou ao final, volta para o primeiro
+                currentPosition = 0;
+            } else {
+                currentPosition -= cardWidth;
+            }
+            carousel.style.transform = `translateX(${currentPosition}px)`;
+        }
+        
+        function prevCard() {
+            if (currentPosition >= 0) {
+                // Se está no primeiro, vai para o último
+                currentPosition = maxScroll;
+            } else {
+                currentPosition += cardWidth;
+            }
+            carousel.style.transform = `translateX(${currentPosition}px)`;
+        }
 <meta name="description" content="Consultoria em Psicologia Organizacional especializada em Talent Acquisition, Diagnóstico Organizacional e Gestão de Cultura.">
 <meta name="keywords" content="psicologia organizacional, gestão de pessoas, talent acquisition, Lucas Fernando">
     <meta charset="UTF-8">
@@ -483,6 +511,5 @@
         </div>
     </footer>
 <a href="#inicio" id="back-to-top" style="position: fixed; bottom: 20px; right: 20px; background: #3b82f6; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.5rem;">↑</a>
-<script src="main.js"></script>
 </body>
 </html>
