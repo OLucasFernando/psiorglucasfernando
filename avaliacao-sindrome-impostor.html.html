@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Avaliação Psicológica | Lucas Fernando</title>
+  <title>ANIMA - Avaliação Psicológica</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -207,46 +207,40 @@
       margin-top: 5px;
     }
     
-    /* === RESULTADOS === */
-    #results {
-      display: none;
-      background: white;
-      padding: 30px;
-      margin: 40px auto;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-      animation: fadeIn 1s ease;
+    /* Novos estilos para resultados */
+    .resultados {
+      margin-bottom: 30px;
     }
     
-    #results h2 {
-      color: #1e3a8a;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-    
-    #resultsChart {
-      margin: 20px auto;
-    }
-    
-    #downloadPdf {
-      display: block;
-      width: 100%;
-      max-width: 300px;
-      margin: 30px auto 0;
-      padding: 12px 25px;
-      background-color: #10b981;
-      color: white;
-      border: none;
+    .score {
+      padding: 10px;
+      margin-bottom: 10px;
       border-radius: 5px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
+      background-color: #f0f7ff;
     }
     
-    #downloadPdf:hover {
-      background-color: #059669;
-      transform: translateY(-2px);
+    .score.alto {
+      background-color: #fee2e2;
+      border-left: 4px solid #ef4444;
     }
+    
+    .recomendacao {
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      background-color: #f0fdf4;
+      border-left: 4px solid #10b981;
+    }
+    
+    .recomendacao h4 {
+      margin-bottom: 10px;
+      color: #1e3a8a;
+    }
+    
+    .recomendacao.positiva {
+      background-color: #eff6ff;
+      border-left: 4px solid #3b82f6;
+    }    
     
     /* === RODAPÉ === */
     footer {
@@ -1158,6 +1152,7 @@
     
     <div id="results">
       <h2>Seus Resultados</h2>
+      <div id="interpretacao"></div>
       <canvas id="resultsChart" height="300"></canvas>
       <button id="downloadPdf"><i class="fas fa-download"></i> Baixar Relatório em PDF</button>
     </div>
@@ -1223,158 +1218,375 @@
     
     <!-- Créditos -->
     <div class="footer-credits">
-      <p>© 2024 Lucas Fernando. Todos os direitos reservados.</p>
+      <p>© 2025 Lucas Fernando. Todos os direitos reservados.</p>
     </div>
   </footer>
 
   <script>
-  // JavaScript mantido igual ao original, com pequenos ajustes visuais
-  let currentPage = 1;
-  const totalPages = 8;
-  
-  function changePage(step) {
-    document.querySelector(`[data-page="${currentPage}"]`).classList.remove("active");
-    currentPage += step;
-    document.querySelector(`[data-page="${currentPage}"]`).classList.add("active");
-    
-    document.getElementById('prevBtn').disabled = currentPage === 1;
-    document.getElementById('nextBtn').style.display = currentPage === totalPages ? "none" : "inline-block";
-    document.getElementById('submitBtn').style.display = currentPage === totalPages ? "inline-block" : "none";
-    
-    // Rolagem suave para o topo do formulário
-    document.getElementById('surveyForm').scrollIntoView({behavior: 'smooth', block: 'start'});
-  }
-  
-  function updateProgress() {
-    const total = 80;
-    const answered = document.querySelectorAll('input[type="radio"]:checked').length;
-    const progress = (answered / total * 100);
-    
-    document.getElementById('progressBar').style.width = progress + "%";
-    document.getElementById('answered').textContent = answered;
-    
-    // Mudar cor da barra conforme progresso
-    if (progress < 30) {
-      document.getElementById('progressBar').style.background = "#ef4444";
-    } else if (progress < 70) {
-      document.getElementById('progressBar').style.background = "#f59e0b";
-    } else {
-      document.getElementById('progressBar').style.background = "linear-gradient(90deg, #3b82f6, #1e40af)";
-    }
-  }
-  
-  document.querySelectorAll('input[type="radio"]').forEach(input => {
-    input.addEventListener('change', updateProgress);
-  });
+    // === CONSTANTES GLOBAIS === //
+    const PONTOS_CORTE = {
+      IMPOSTOR: { ALTO: 3.5 }, // Escala de Clance (1-5)
+      BURNOUT: { EXAUSTAO: 4, CINISMO: 3.5 }, // MBI (1-5)
+      ANSIEDADE: { MODERADA: 10, GRAVE: 15 } // GAD-7 (0-21)
+    };
 
-  document.getElementById("surveyForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const respostas = {}, scores = {}, labels = [], data = [];
-    const dimensoes = [
-      "Autodúvida e Insegurança", "Medo do Fracasso e Perfeccionismo",
-      "Atribuição Externa de Sucesso", "Exaustão Emocional",
-      "Despersonalização e Cinismo", "Redução da Realização Pessoal",
-      "Ansiedade Generalizada", "Autoeficácia (invertida)"
-    ];
-    
-    for (let [key, value] of formData.entries()) {
-      if (key.startsWith("q")) respostas[key] = parseInt(value);
+    // === NAVEGAÇÃO ENTRE PÁGINAS === //
+    let currentPage = 1;
+    const totalPages = 8;
+
+    function changePage(step) {
+      document.querySelector(`[data-page="${currentPage}"]`).classList.remove("active");
+      currentPage += step;
+      document.querySelector(`[data-page="${currentPage}"]`).classList.add("active");
+      
+      document.getElementById('prevBtn').disabled = currentPage === 1;
+      document.getElementById('nextBtn').style.display = currentPage === totalPages ? "none" : "inline-block";
+      document.getElementById('submitBtn').style.display = currentPage === totalPages ? "inline-block" : "none";
+      document.getElementById('surveyForm').scrollIntoView({behavior: 'smooth', block: 'start'});
     }
-    
-    for (let i = 0; i < 8; i++) {
-      let soma = 0;
-      for (let j = 1; j <= 10; j++) {
-        let num = i * 10 + j;
-        let val = respostas["q" + num] || 3;
-        if (i === 7) val = 6 - val; // Inverte a escala para Autoeficácia
-        soma += val;
+
+    // === BARRA DE PROGRESSO === //
+    function updateProgress() {
+      const total = 80;
+      const answered = document.querySelectorAll('input[type="radio"]:checked').length;
+      const progress = (answered / total * 100);
+      
+      document.getElementById('progressBar').style.width = progress + "%";
+      document.getElementById('answered').textContent = answered;
+      
+      if (progress < 30) {
+        document.getElementById('progressBar').style.background = "#ef4444";
+      } else if (progress < 70) {
+        document.getElementById('progressBar').style.background = "#f59e0b";
+      } else {
+        document.getElementById('progressBar').style.background = "linear-gradient(90deg, #3b82f6, #1e40af)";
       }
-      let media = soma / 10;
-      scores[dimensoes[i]] = media.toFixed(2);
-      labels.push(dimensoes[i]);
-      data.push(media);
     }
-    
-    renderChart(labels, data);
-    sendToFormspree(scores);
-    document.getElementById('results').style.display = "block";
-    document.getElementById('results').scrollIntoView({behavior: 'smooth'});
-  });
 
-  function renderChart(labels, data) {
-    const ctx = document.getElementById('resultsChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: 'Média por Dimensão',
-          data: data,
-          backgroundColor: '#3b82f6',
-          borderColor: '#1e40af',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true,
-            max: 5,
-            title: {
-              display: true,
-              text: 'Escala (1-5)'
-            }
-          }
+    // === CÁLCULO CIENTÍFICO DOS ESCORES === //
+    function calcularMedia(respostas, inicio, fim) {
+      let soma = 0;
+      for (let i = inicio; i <= fim; i++) {
+        soma += parseInt(respostas[`q${i}`] || 0);
+      }
+      return (soma / (fim - inicio + 1)).toFixed(2);
+    }
+
+    function calcularGAD7(respostas) {
+      const itensGAD7 = [61, 62, 63, 64, 65, 66, 67]; // IDs das perguntas do GAD-7
+      const pontuacao = itensGAD7.reduce((soma, id) => soma + parseInt(respostas[`q${id}`] || 0), 0);
+      
+      // Ajuste para escala 0-21 (GAD-7 original)
+      return Math.min(pontuacao * 1.5, 21).toFixed(1); // Fator de ajuste para nossa escala 1-5
+    }
+
+    // === RECOMENDAÇÕES DINÂMICAS === //
+    function gerarRecomendacoes(scores) {
+      const recoms = [];
+      
+      // Síndrome do Impostor + Burnout
+      if (scores.impostor >= PONTOS_CORTE.IMPOSTOR.ALTO && scores.burnoutExaustao >= PONTOS_CORTE.BURNOUT.EXAUSTAO) {
+        recoms.push(`
+          <div class="recomendacao">
+            <h4>🔴 Síndrome do Impostor + Burnout</h4>
+            <p>Você apresenta sinais significativos de Síndrome do Impostor combinados com esgotamento profissional.</p>
+            <ul>
+              <li><strong>Autocompaixão:</strong> Pratique falar consigo mesmo como falaria com um amigo</li>
+              <li><strong>Limites saudáveis:</strong> Estabeleça horários fixos para trabalho e descanso</li>
+              <li><strong>Registro de conquistas:</strong> Mantenha um diário de pequenas vitórias diárias</li>
+              <li><strong>Técnica Pomodoro:</strong> Trabalhe em blocos de 25min com pausas de 5min</li>
+            </ul>
+          </div>
+        `);
+      }
+      // Síndrome do Impostor isolada
+      else if (scores.impostor >= PONTOS_CORTE.IMPOSTOR.ALTO) {
+        recoms.push(`
+          <div class="recomendacao">
+            <h4>🟠 Síndrome do Impostor</h4>
+            <p>Você apresenta sinais significativos de Síndrome do Impostor.</p>
+            <ul>
+              <li><strong>Evidências objetivas:</strong> Liste 3 fatos que comprovem sua competência</li>
+              <li><strong>Reduza comparações:</strong> Evite comparar seu "backstage" com o "palco" dos outros</li>
+              <li><strong>Feedback realista:</strong> Peça avaliações objetivas a colegas de confiança</li>
+            </ul>
+          </div>
+        `);
+      }
+
+      // Burnout + Ansiedade
+      if (scores.burnoutExaustao >= PONTOS_CORTE.BURNOUT.EXAUSTAO && scores.ansiedade >= PONTOS_CORTE.ANSIEDADE.MODERADA) {
+        recoms.push(`
+          <div class="recomendacao">
+            <h4>🔴 Burnout + Ansiedade</h4>
+            <p>Combinação crítica de esgotamento profissional com sintomas ansiosos.</p>
+            <ul>
+              <li><strong>Priorize o sono:</strong> Mantenha horários regulares de descanso</li>
+              <li><strong>Técnica 4-7-8:</strong> Inspire (4s), segure (7s), expire (8s) para reduzir ansiedade</li>
+              <li><strong>Micro-pausas:</strong> A cada hora, 2min de alongamento ou respiração</li>
+              <li><strong>Reduza estimulantes:</strong> Diminua café e álcool, especialmente à tarde/noite</li>
+            </ul>
+          </div>
+        `);
+      }
+      // Burnout isolado
+      else if (scores.burnoutExaustao >= PONTOS_CORTE.BURNOUT.EXAUSTAO) {
+        recoms.push(`
+          <div class="recomendacao">
+            <h4>🟠 Burnout (Exaustão)</h4>
+            <p>Você apresenta sinais significativos de esgotamento profissional.</p>
+            <ul>
+              <li><strong>Desconexão programada:</strong> Reserve momentos sem dispositivos eletrônicos</li>
+              <li><strong>Atividade física:</strong> 30min de caminhada diária podem ajudar</li>
+              <li><strong>Redefina expectativas:</strong> Estabeleça metas realistas e alcançáveis</li>
+            </ul>
+          </div>
+        `);
+      }
+
+      // Ansiedade isolada
+      if (scores.ansiedade >= PONTOS_CORTE.ANSIEDADE.GRAVE) {
+        recoms.push(`
+          <div class="recomendacao">
+            <h4>🔴 Ansiedade Grave</h4>
+            <p>Sua pontuação indica níveis elevados de ansiedade.</p>
+            <ul>
+              <li><strong>Grounding:</strong> Quando ansioso, nomeie 5 coisas que vê, 4 que toca, 3 que ouve, 2 que cheira, 1 que gosta</li>
+              <li><strong>Preocupação programada:</strong> Reserve 15min/dia para anotar preocupações, depois "arquive" elas</li>
+              <li><strong>Busque ajuda profissional:</strong> Considere acompanhamento psicológico especializado</li>
+            </ul>
+          </div>
+        `);
+      } else if (scores.ansiedade >= PONTOS_CORTE.ANSIEDADE.MODERADA) {
+        recoms.push(`
+          <div class="recomendacao">
+            <h4>🟠 Ansiedade Moderada</h4>
+            <p>Você apresenta sinais moderados de ansiedade.</p>
+            <ul>
+              <li><strong>Respiração diafragmática:</strong> Pratique 5min pela manhã e à noite</li>
+              <li><strong>Limite de preocupação:</strong> Estabeleça um timer de 10min para cada preocupação</li>
+              <li><strong>Exercícios físicos:</strong> Atividades regulares ajudam a regular a ansiedade</li>
+            </ul>
+          </div>
+        `);
+      }
+
+      return recoms.length > 0 ? recoms.join("") : 
+        `<div class="recomendacao positiva">
+          <h4>🟢 Nenhum risco elevado detectado</h4>
+          <p>Seus escores estão dentro da faixa considerada saudável. Continue monitorando seu bem-estar e mantenha hábitos balanceados!</p>
+        </div>`;
+    }
+
+    // === RENDERIZAR GRÁFICO DE RADAR === //
+    function renderChart(scores) {
+      const ctx = document.getElementById('resultsChart').getContext('2d');
+      
+      // Destruir gráfico anterior se existir
+      if (window.resultChart) {
+        window.resultChart.destroy();
+      }
+      
+      window.resultChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: [
+            'Síndrome do Impostor', 
+            'Burnout (Exaustão)', 
+            'Ansiedade (GAD-7)'
+          ],
+          datasets: [{
+            label: 'Seus Escores',
+            data: [
+              (scores.impostor / 5 * 100).toFixed(1), // Convertendo escala 1-5 para 0-100
+              (scores.burnoutExaustao / 5 * 100).toFixed(1), // Convertendo escala 1-5 para 0-100
+              (scores.ansiedade / 21 * 100).toFixed(1) // Convertendo escala 0-21 para 0-100
+            ],
+            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+            borderColor: '#3b82f6',
+            borderWidth: 2,
+            pointBackgroundColor: '#3b82f6',
+            pointRadius: 4
+          }, {
+            label: 'Pontos de Corte',
+            data: [
+              (PONTOS_CORTE.IMPOSTOR.ALTO / 5 * 100).toFixed(1),
+              (PONTOS_CORTE.BURNOUT.EXAUSTAO / 5 * 100).toFixed(1),
+              (PONTOS_CORTE.ANSIEDADE.MODERADA / 21 * 100).toFixed(1)
+            ],
+            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+            borderColor: '#ef4444',
+            borderWidth: 1,
+            borderDash: [5, 5],
+            pointRadius: 0
+          }]
         },
-        plugins: {
-          legend: {
-            display: false
+        options: {
+          responsive: true,
+          scales: {
+            r: {
+              angleLines: { 
+                display: true,
+                color: 'rgba(0, 0, 0, 0.1)'
+              },
+              suggestedMin: 0,
+              suggestedMax: 100,
+              ticks: {
+                stepSize: 20,
+                backdropColor: 'transparent'
+              },
+              pointLabels: {
+                font: {
+                  size: 12,
+                  weight: 'bold'
+                }
+              }
+            }
           },
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                return `Média: ${context.raw}`;
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                boxWidth: 12,
+                padding: 20
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  let label = context.dataset.label || '';
+                  if (label) {
+                    label += ': ';
+                  }
+                  
+                  // Formatação especial para cada dimensão
+                  const dimension = context.chart.data.labels[context.dataIndex];
+                  let value = parseFloat(context.raw).toFixed(1);
+                  
+                  if (dimension === 'Síndrome do Impostor') {
+                    const originalValue = (value / 100 * 5).toFixed(1);
+                    return `${label}${value}% (${originalValue}/5)`;
+                  } else if (dimension === 'Burnout (Exaustão)') {
+                    const originalValue = (value / 100 * 5).toFixed(1);
+                    return `${label}${value}% (${originalValue}/5)`;
+                  } else {
+                    const originalValue = (value / 100 * 21).toFixed(1);
+                    return `${label}${value}% (${originalValue}/21)`;
+                  }
+                }
               }
             }
           }
         }
+      });
+    }
+
+    // === ENVIO DO FORMULÁRIO === //
+    document.getElementById("surveyForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const respostas = Object.fromEntries(formData.entries());
+
+      // Calcular escores científicos
+      const scores = {
+        impostor: calcularMedia(respostas, 1, 20), // Q1-Q20 (Escala de Clance)
+        burnoutExaustao: calcularMedia(respostas, 31, 40), // Q31-Q40 (Exaustão - MBI)
+        ansiedade: calcularGAD7(respostas) // Q61-Q67 (GAD-7 ajustado)
+      };
+
+      // Criar div de interpretação se não existir
+      if (!document.getElementById("interpretacao")) {
+        const div = document.createElement("div");
+        div.id = "interpretacao";
+        document.getElementById("results").insertBefore(div, document.getElementById("resultsChart"));
       }
-    });
-  }
 
-  function sendToFormspree(scores) {
-    const formData = new FormData();
-    for (let key in scores) formData.append(key, scores[key]);
-    fetch("https://formspree.io/f/xyzjjeez", {
-      method: "POST",
-      body: formData,
-      headers: { 'Accept': 'application/json' }
-    });
-  }
+      // Exibir resultados
+      document.getElementById("interpretacao").innerHTML = `
+        <div class="resultados">
+          <h3>Resultados Científicos</h3>
+          
+          <div class="score ${scores.impostor >= PONTOS_CORTE.IMPOSTOR.ALTO ? 'alto' : ''}">
+            <p><strong>Síndrome do Impostor (Escala de Clance):</strong> 
+              ${scores.impostor}/5 
+              ${scores.impostor >= PONTOS_CORTE.IMPOSTOR.ALTO ? 
+                '⚠️ <strong>(Alto - Pontuação acima de 3.5)</strong>' : 
+                '(Abaixo do ponto de corte)'}
+            </p>
+            <p class="info">Q1-Q20: Autodúvida, medo do fracasso e atribuição externa de sucesso</p>
+          </div>
+          
+          <div class="score ${scores.burnoutExaustao >= PONTOS_CORTE.BURNOUT.EXAUSTAO ? 'alto' : ''}">
+            <p><strong>Burnout - Exaustão (MBI):</strong> 
+              ${scores.burnoutExaustao}/5 
+              ${scores.burnoutExaustao >= PONTOS_CORTE.BURNOUT.EXAUSTAO ? 
+                '⚠️ <strong>(Alto - Pontuação acima de 4.0)</strong>' : 
+                '(Abaixo do ponto de corte)'}
+            </p>
+            <p class="info">Q31-Q40: Esgotamento emocional e físico relacionado ao trabalho</p>
+          </div>
+          
+          <div class="score ${scores.ansiedade >= PONTOS_CORTE.ANSIEDADE.MODERADA ? 'alto' : ''}">
+            <p><strong>Ansiedade (GAD-7 ajustado):</strong> 
+              ${scores.ansiedade}/21
+              ${scores.ansiedade >= PONTOS_CORTE.ANSIEDADE.GRAVE ? 
+                '⚠️ <strong>(Grave - Pontuação acima de 15)</strong>' : 
+                scores.ansiedade >= PONTOS_CORTE.ANSIEDADE.MODERADA ? 
+                '⚠️ (Moderada - Pontuação acima de 10)' : 
+                '(Abaixo do ponto de corte)'}
+            </p>
+            <p class="info">Q61-Q67: Sintomas de ansiedade generalizada</p>
+          </div>
+          
+          <h3>Recomendações Personalizadas</h3>
+          ${gerarRecomendacoes(scores)}
+        </div>
+      `;
 
-  document.getElementById("downloadPdf").addEventListener("click", async function() {
-    const chart = document.getElementById('resultsChart');
-    const canvas = await html2canvas(chart);
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jspdf.jsPDF();
-    
-    pdf.setFontSize(18);
-    pdf.setTextColor(30, 58, 138);
-    pdf.text("Relatório - Avaliação Psicológica", 105, 20, null, null, 'center');
-    
-    pdf.setFontSize(12);
-    pdf.setTextColor(0, 0, 0);
-    pdf.text("Resultados da avaliação realizada em " + new Date().toLocaleDateString(), 105, 30, null, null, 'center');
-    
-    pdf.addImage(imgData, 'PNG', 15, 40, 180, 90);
-    
-    pdf.setFontSize(10);
-    pdf.text("© 2024 Lucas Fernando - Psicologia Organizacional", 105, 145, null, null, 'center');
-    
-    pdf.save("relatorio_avaliacao.pdf");
-  });
+      // Renderizar gráfico
+      renderChart(scores);
+      
+      // Mostrar resultados
+      document.getElementById("results").style.display = "block";
+      document.getElementById("results").scrollIntoView({behavior: 'smooth'});
+    });
+
+    // === BOTÃO DOWNLOAD PDF === //
+    document.getElementById("downloadPdf").addEventListener("click", async function() {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF();
+      
+      // Configurações do PDF
+      pdf.setFontSize(18);
+      pdf.setTextColor(30, 58, 138);
+      pdf.text("Relatório ANIMA - Saúde Psicológica", 105, 20, { align: 'center' });
+      
+      pdf.setFontSize(12);
+      pdf.setTextColor(0, 0, 0);
+      pdf.text("Data: " + new Date().toLocaleDateString(), 15, 30);
+      
+      // Captura dos resultados
+      const canvas = await html2canvas(document.querySelector("#interpretacao, #resultsChart"), {
+        scale: 2,
+        logging: false,
+        useCORS: true
+      });
+      
+      // Adiciona imagem ao PDF
+      const imgData = canvas.toDataURL('image/png');
+      pdf.addImage(imgData, 'PNG', 15, 40, 180, 0);
+      
+      // Salva o PDF
+      pdf.save("relatorio_anima_" + new Date().toISOString().slice(0, 10) + ".pdf");
+    });
+
+    // Atualizar barra de progresso
+    document.querySelectorAll('input[type="radio"]').forEach(input => {
+      input.addEventListener('change', updateProgress);
+    });
+
+    // Inicializar
+    updateProgress();
   </script>
 </body>
 </html>
