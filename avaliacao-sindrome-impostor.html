@@ -390,7 +390,14 @@
     </div>
     <p class="progress-text"><span id="answered">0</span> de 80 questões respondidas</p>
     
-    <form id="surveyForm">
+    <form 
+  id="surveyForm" 
+  action="https://formspree.io/f/xdkdlolo" 
+  method="POST"
+>
+  <!-- Campos ocultos para configurar o e-mail -->
+  <input type="hidden" name="_subject" value="Novo resultado da avaliação ANIMA">
+  <input type="text" name="_gotcha" style="display:none"> <!-- Anti-spam -->
       <!-- Página 1 -->
       <div class="page active" data-page="1">
         <h2>1. Autodúvida e Insegurança</h2>
@@ -1144,10 +1151,18 @@
       </div>
       
       <div class="navigation">
-        <button type="button" onclick="changePage(-1)" id="prevBtn" disabled><i class="fas fa-arrow-left"></i> Anterior</button>
-        <button type="button" onclick="changePage(1)" id="nextBtn">Próximo <i class="fas fa-arrow-right"></i></button>
-        <button type="submit" id="submitBtn" style="display:none;">Enviar Respostas <i class="fas fa-paper-plane"></i></button>
-      </div>
+  <button type="button" onclick="changePage(-1)" id="prevBtn" disabled>
+    <i class="fas fa-arrow-left"></i> Anterior
+  </button>
+  <!-- Mantenha o botão "Próximo" visível até a última página -->
+  <button type="button" onclick="changePage(1)" id="nextBtn">
+    Próximo <i class="fas fa-arrow-right"></i>
+  </button>
+  <!-- Botão de envio (aparece apenas na última página) -->
+  <button type="submit" id="submitBtn" style="display:none;">
+    Enviar Respostas <i class="fas fa-paper-plane"></i>
+  </button>
+</div>
     </form>
     
     <div id="results">
@@ -1587,6 +1602,24 @@
 
     // Inicializar
     updateProgress();
+     // Garante que o formulário só seja enviado após o processamento local
+document.getElementById("surveyForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  
+  // ... (seu código existente para calcular scores) ...
+  
+  // Envia para Formspree
+  fetch("https://formspree.io/f/xdkdlolo", {
+    method: "POST",
+    body: new FormData(e.target),
+    headers: { "Accept": "application/json" }
+  });
+  
+  // Continua com a exibição dos resultados localmente
+  mostrarResultados(scores);
+});
   </script>
+ 
 </body>
 </html>
+
